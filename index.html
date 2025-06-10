@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>智慧闯关 - 知识挑战小游戏</title>
-    <!-- 引入Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- 引入Font Awesome -->
-    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    
-    <!-- 配置Tailwind自定义主题 -->
-    <script>
-        tailwind.config = {
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   智慧闯关 - 知识挑战小游戏
+  </title>
+  <!-- 引入Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <!-- 引入Font Awesome -->
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+  <!-- 配置Tailwind自定义主题 -->
+  <script>
+   tailwind.config = {
             theme: {
                 extend: {
                     colors: {
@@ -38,11 +40,10 @@
                         slideUp: {
                             '0%': { transform: 'translateY(20px)', opacity: '0' },
                             '100%': { transform: 'translateY(0)', opacity: '1' },
-    </script>
-    
-    <!-- 自定义工具类 -->
-    <style type="text/tailwindcss">
-        @layer utilities {
+  </script>
+  <!-- 自定义工具类 -->
+  <style type="text/tailwindcss">
+   @layer utilities {
             .content-auto {
                 content-visibility: auto;
             .text-shadow {
@@ -61,234 +62,289 @@
                 @apply bg-gray-100 border-gray-300;
             .rank-3 {
                 @apply bg-orange-100 border-orange-300;
-    </style>
-</head>
-<body class="font-inter bg-gradient-to-br from-light to-indigo-50 min-h-screen">
-    <!-- 游戏容器 -->
-    <div id="game-container" class="max-w-4xl mx-auto px-4 py-8">
-        
-        <!-- 用户信息表单 -->
-        <div id="user-info-screen" class="text-center animate-fade-in hidden">
-            <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12 mb-8 relative overflow-hidden">
-                <!-- 装饰元素 -->
-                <div class="absolute -top-24 -right-24 w-48 h-48 bg-primary/10 rounded-full blur-3xl"></div>
-                <div class="absolute -bottom-24 -left-24 w-48 h-48 bg-secondary/10 rounded-full blur-3xl"></div>
-                
-                <div class="relative">
-                    <div class="flex justify-center mb-8">
-                        <div class="w-20 h-20 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-lg">
-                            <i class="fa fa-user text-white text-3xl"></i>
-                        </div>
-                    </div>
-                    
-                    <h1 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-dark mb-6 text-shadow">请输入您的信息</h1>
-                    
-                    <form id="user-info-form" class="space-y-4 max-w-md mx-auto">
-                        <div class="form-group">
-                            <label for="username" class="block text-gray-700 font-medium mb-2 text-left">用户名</label>
-                            <input type="text" id="username" name="username" required
-                                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300"
-                                placeholder="请输入您的姓名">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="department" class="block text-gray-700 font-medium mb-2 text-left">所属部门</label>
-                            <input type="text" id="department" name="department" required
-                                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300"
-                                placeholder="请输入您的部门">
-                        </div>
-                        
-                        <button type="submit" class="btn-primary w-full mt-4">
-                            <i class="fa fa-play mr-2"></i>开始答题
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-        
-        <!-- 开始屏幕 -->
-        <div id="start-screen" class="text-center animate-fade-in">
-            <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12 mb-8 relative overflow-hidden">
-                <!-- 装饰元素 -->
-                <div class="absolute -top-24 -right-24 w-48 h-48 bg-primary/10 rounded-full blur-3xl"></div>
-                <div class="absolute -bottom-24 -left-24 w-48 h-48 bg-secondary/10 rounded-full blur-3xl"></div>
-                
-                <div class="relative">
-                    <div class="flex justify-center mb-8">
-                        <div class="w-20 h-20 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-lg">
-                            <i class="fa fa-lightbulb-o text-white text-3xl"></i>
-                        </div>
-                    </div>
-                    
-                    <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold text-dark mb-4 text-shadow">智慧闯关</h1>
-                    <p class="text-gray-600 text-lg md:text-xl mb-8 max-w-2xl mx-auto">挑战你的知识极限，通过答题闯关，测试你的智慧和反应能力！</p>
-                    
-                    <div class="flex flex-wrap justify-center gap-4 mb-8">
-                        <div class="bg-indigo-50 rounded-xl p-4 shadow-sm w-full md:w-1/3">
-                            <div class="text-primary text-2xl mb-2">
-                                <i class="fa fa-graduation-cap"></i>
-                            </div>
-                            <h3 class="font-semibold text-dark mb-1">知识丰富</h3>
-                            <p class="text-sm text-gray-600">涵盖多领域题目</p>
-                        </div>
-                        <div class="bg-pink-50 rounded-xl p-4 shadow-sm w-full md:w-1/3">
-                            <div class="text-secondary text-2xl mb-2">
-                                <i class="fa fa-trophy"></i>
-                            </div>
-                            <h3 class="font-semibold text-dark mb-1">刺激挑战</h3>
-                            <p class="text-sm text-gray-600">答错一题即结束</p>
-                        </div>
-                        <div class="bg-green-50 rounded-xl p-4 shadow-sm w-full md:w-1/3">
-                            <div class="text-accent text-2xl mb-2">
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <h3 class="font-semibold text-dark mb-1">成就系统</h3>
-                            <p class="text-sm text-gray-600">解锁徽章与称号</p>
-                        </div>
-                    </div>
-                    
-                    <button id="start-game" class="btn-primary">
-                        <i class="fa fa-play mr-2"></i>开始游戏
-                    </button>
-                </div>
-            </div>
-            
-            <div class="text-center text-gray-500 text-sm">
-                <p>© 2025 智慧闯关 版权所有</p>
-            </div>
-        </div>
-        
-        <!-- 游戏屏幕 -->
-        <div id="game-screen" class="hidden animate-fade-in">
-            <!-- 游戏头部 -->
-            <div class="flex justify-between items-center mb-6">
-                <button id="back-to-menu" class="btn-outline py-2 px-4">
-                    <i class="fa fa-arrow-left mr-1"></i> 返回
-                </button>
-                
-                <div class="flex items-center space-x-4">
-                    <div class="bg-white rounded-lg shadow-sm px-4 py-2 flex items-center">
-                        <i class="fa fa-star text-yellow-400 mr-2"></i>
-                        <span id="score" class="font-semibold">0</span>
-                    </div>
-                    <div class="bg-white rounded-lg shadow-sm px-4 py-2 flex items-center">
-                        <i class="fa fa-signal text-primary mr-2"></i>
-                        <span id="level" class="font-semibold">1</span>
-                    </div>
-                    <div class="bg-white rounded-lg shadow-sm px-4 py-2 flex items-center">
-                        <i class="fa fa-clock-o text-red-500 mr-2"></i>
-                        <span id="timer" class="font-semibold">15</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 题目卡片 -->
-            <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 mb-6 relative overflow-hidden">
-                <!-- 装饰元素 -->
-                <div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16"></div>
-                
-                <div class="relative">
-                    <h2 id="question" class="text-xl md:text-2xl font-semibold text-dark mb-6 min-h-[6rem] flex items-center">加载题目中...</h2>
-                    
-                    <div id="options" class="space-y-3">
-                        <!-- 选项将通过JavaScript动态生成 -->
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 游戏进度 -->
-            <div class="bg-white rounded-xl shadow-sm p-4 mb-6">
-                <div class="flex justify-between items-center mb-2">
-                    <span class="text-sm text-gray-500">游戏进度</span>
-                    <span id="progress-text" class="text-sm font-medium">0/10</span>
-                </div>
-                <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
-                    <div id="progress-bar" class="h-full bg-primary rounded-full transition-all duration-500" style="width: 0%"></div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- 结果屏幕 -->
-        <div id="result-screen" class="hidden text-center animate-fade-in">
-            <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12 mb-8 relative overflow-hidden">
-                <!-- 装饰元素 -->
-                <div class="absolute top-0 right-0 w-40 h-40 bg-primary/10 rounded-full -mr-20 -mt-20"></div>
-                <div class="absolute bottom-0 left-0 w-40 h-40 bg-secondary/10 rounded-full -ml-20 -mb-20"></div>
-                
-                <div class="relative">
-                    <div id="result-icon" class="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
-                        <i class="fa fa-check text-primary text-4xl"></i>
-                    </div>
-                    
-                    <h2 id="result-title" class="text-2xl md:text-3xl font-bold text-dark mb-2">游戏结束</h2>
-                    <p id="result-message" class="text-gray-600 mb-8">感谢参与智慧闯关</p>
-                    
-                    <div class="bg-indigo-50 rounded-xl p-6 mb-8 max-w-md mx-auto">
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="text-gray-600">你的得分</span>
-                            <span id="final-score" class="text-2xl font-bold text-primary">0</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-gray-600">答题用时</span>
-                            <span id="total-time" class="text-xl font-semibold text-dark">0秒</span>
-                        </div>
-                    </div>
-                    
-                    <div class="mb-8">
-                        <h3 class="text-xl font-semibold mb-4">排行榜</h3>
-                        <div id="leaderboard" class="space-y-3 max-w-md mx-auto">
-                            <!-- 排行榜将通过JavaScript动态生成 -->
-                        </div>
-                    </div>
-                    
-                    <div class="flex flex-wrap justify-center gap-4">
-                        <button id="play-again" class="btn-primary">
-                            <i class="fa fa-refresh mr-2"></i>再玩一次
-                        </button>
-                        <button id="share-result" class="btn-secondary">
-                            <i class="fa fa-share-alt mr-2"></i>分享成绩
-                        </button>
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
+  </style>
+ </head>
+ <body class="font-inter bg-gradient-to-br from-light to-indigo-50 min-h-screen">
+  <!-- 游戏容器 -->
+  <div class="max-w-4xl mx-auto px-4 py-8" id="game-container">
+   <!-- 用户信息表单 -->
+   <div class="text-center animate-fade-in hidden" id="user-info-screen">
+    <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12 mb-8 relative overflow-hidden">
+     <!-- 装饰元素 -->
+     <div class="absolute -top-24 -right-24 w-48 h-48 bg-primary/10 rounded-full blur-3xl">
+     </div>
+     <div class="absolute -bottom-24 -left-24 w-48 h-48 bg-secondary/10 rounded-full blur-3xl">
+     </div>
+     <div class="relative">
+      <div class="flex justify-center mb-8">
+       <div class="w-20 h-20 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-lg">
+        <i class="fa fa-user text-white text-3xl">
+        </i>
+       </div>
+      </div>
+      <h1 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-dark mb-6 text-shadow">
+       请输入您的信息
+      </h1>
+      <form class="space-y-4 max-w-md mx-auto" id="user-info-form">
+       <div class="form-group">
+        <label class="block text-gray-700 font-medium mb-2 text-left" for="username">
+         用户名
+        </label>
+        <input class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300" id="username" name="username" placeholder="请输入您的姓名" required="" type="text"/>
+       </div>
+       <div class="form-group">
+        <label class="block text-gray-700 font-medium mb-2 text-left" for="department">
+         所属部门
+        </label>
+        <input class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300" id="department" name="department" placeholder="请输入您的部门" required="" type="text"/>
+       </div>
+       <button class="btn-primary w-full mt-4" type="submit">
+        <i class="fa fa-play mr-2">
+        </i>
+        开始答题
+       </button>
+      </form>
+     </div>
     </div>
-    
-    <!-- 成功提示模态框 -->
-    <div id="success-modal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
-        <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4 transform transition-all scale-95 opacity-0" id="modal-content">
-            <div class="text-center">
-                <div class="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
-                    <i class="fa fa-check text-accent text-2xl"></i>
-                </div>
-                <h3 class="text-xl font-bold text-dark mb-2">回答正确！</h3>
-                <p class="text-gray-600 mb-6">+10 分</p>
-                <button id="close-success-modal" class="btn-primary py-2 px-4">
-                    继续
-                </button>
-            </div>
+   </div>
+   <!-- 开始屏幕 -->
+   <div class="text-center animate-fade-in" id="start-screen">
+    <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12 mb-8 relative overflow-hidden">
+     <!-- 装饰元素 -->
+     <div class="absolute -top-24 -right-24 w-48 h-48 bg-primary/10 rounded-full blur-3xl">
+     </div>
+     <div class="absolute -bottom-24 -left-24 w-48 h-48 bg-secondary/10 rounded-full blur-3xl">
+     </div>
+     <div class="relative">
+      <div class="flex justify-center mb-8">
+       <div class="w-20 h-20 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-lg">
+        <i class="fa fa-lightbulb-o text-white text-3xl">
+        </i>
+       </div>
+      </div>
+      <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold text-dark mb-4 text-shadow">
+       智慧闯关
+      </h1>
+      <p class="text-gray-600 text-lg md:text-xl mb-8 max-w-2xl mx-auto">
+       挑战你的知识极限，通过答题闯关，测试你的智慧和反应能力！
+      </p>
+      <div class="flex flex-wrap justify-center gap-4 mb-8">
+       <div class="bg-indigo-50 rounded-xl p-4 shadow-sm w-full md:w-1/3">
+        <div class="text-primary text-2xl mb-2">
+         <i class="fa fa-graduation-cap">
+         </i>
         </div>
-    </div>
-    
-    <!-- 失败提示模态框 -->
-    <div id="fail-modal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
-        <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4 transform transition-all scale-95 opacity-0" id="fail-modal-content">
-            <div class="text-center">
-                <div class="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-4">
-                    <i class="fa fa-times text-red-500 text-2xl"></i>
-                </div>
-                <h3 class="text-xl font-bold text-dark mb-2">回答错误</h3>
-                <p id="correct-answer-text" class="text-gray-600 mb-6">正确答案是：A. 示例答案</p>
-                <button id="close-fail-modal" class="btn-primary py-2 px-4">
-                    查看结果
-                </button>
-            </div>
+        <h3 class="font-semibold text-dark mb-1">
+         知识丰富
+        </h3>
+        <p class="text-sm text-gray-600">
+         涵盖多领域题目
+        </p>
+       </div>
+       <div class="bg-pink-50 rounded-xl p-4 shadow-sm w-full md:w-1/3">
+        <div class="text-secondary text-2xl mb-2">
+         <i class="fa fa-trophy">
+         </i>
         </div>
+        <h3 class="font-semibold text-dark mb-1">
+         刺激挑战
+        </h3>
+        <p class="text-sm text-gray-600">
+         答错一题即结束
+        </p>
+       </div>
+       <div class="bg-green-50 rounded-xl p-4 shadow-sm w-full md:w-1/3">
+        <div class="text-accent text-2xl mb-2">
+         <i class="fa fa-star">
+         </i>
+        </div>
+        <h3 class="font-semibold text-dark mb-1">
+         成就系统
+        </h3>
+        <p class="text-sm text-gray-600">
+         解锁徽章与称号
+        </p>
+       </div>
+      </div>
+      <button class="btn-primary" id="start-game">
+       <i class="fa fa-play mr-2">
+       </i>
+       开始游戏
+      </button>
+     </div>
     </div>
-
-    <script>
-        // 游戏数据 - 题库
+    <div class="text-center text-gray-500 text-sm">
+     <p>
+      &copy; 2025 智慧闯关 版权所有
+     </p>
+    </div>
+   </div>
+   <!-- 游戏屏幕 -->
+   <div class="hidden animate-fade-in" id="game-screen">
+    <!-- 游戏头部 -->
+    <div class="flex justify-between items-center mb-6">
+     <button class="btn-outline py-2 px-4" id="back-to-menu">
+      <i class="fa fa-arrow-left mr-1">
+      </i>
+      返回
+     </button>
+     <div class="flex items-center space-x-4">
+      <div class="bg-white rounded-lg shadow-sm px-4 py-2 flex items-center">
+       <i class="fa fa-star text-yellow-400 mr-2">
+       </i>
+       <span class="font-semibold" id="score">
+        0
+       </span>
+      </div>
+      <div class="bg-white rounded-lg shadow-sm px-4 py-2 flex items-center">
+       <i class="fa fa-signal text-primary mr-2">
+       </i>
+       <span class="font-semibold" id="level">
+        1
+       </span>
+      </div>
+      <div class="bg-white rounded-lg shadow-sm px-4 py-2 flex items-center">
+       <i class="fa fa-clock-o text-red-500 mr-2">
+       </i>
+       <span class="font-semibold" id="timer">
+        15
+       </span>
+      </div>
+     </div>
+    </div>
+    <!-- 题目卡片 -->
+    <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 mb-6 relative overflow-hidden">
+     <!-- 装饰元素 -->
+     <div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16">
+     </div>
+     <div class="relative">
+      <h2 class="text-xl md:text-2xl font-semibold text-dark mb-6 min-h-[6rem] flex items-center" id="question">
+       加载题目中...
+      </h2>
+      <div class="space-y-3" id="options">
+       <!-- 选项将通过JavaScript动态生成 -->
+      </div>
+     </div>
+    </div>
+    <!-- 游戏进度 -->
+    <div class="bg-white rounded-xl shadow-sm p-4 mb-6">
+     <div class="flex justify-between items-center mb-2">
+      <span class="text-sm text-gray-500">
+       游戏进度
+      </span>
+      <span class="text-sm font-medium" id="progress-text">
+       0/10
+      </span>
+     </div>
+     <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+      <div class="h-full bg-primary rounded-full transition-all duration-500" id="progress-bar" style="width: 0%">
+      </div>
+     </div>
+    </div>
+   </div>
+   <!-- 结果屏幕 -->
+   <div class="hidden text-center animate-fade-in" id="result-screen">
+    <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12 mb-8 relative overflow-hidden">
+     <!-- 装饰元素 -->
+     <div class="absolute top-0 right-0 w-40 h-40 bg-primary/10 rounded-full -mr-20 -mt-20">
+     </div>
+     <div class="absolute bottom-0 left-0 w-40 h-40 bg-secondary/10 rounded-full -ml-20 -mb-20">
+     </div>
+     <div class="relative">
+      <div class="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6" id="result-icon">
+       <i class="fa fa-check text-primary text-4xl">
+       </i>
+      </div>
+      <h2 class="text-2xl md:text-3xl font-bold text-dark mb-2" id="result-title">
+       游戏结束
+      </h2>
+      <p class="text-gray-600 mb-8" id="result-message">
+       感谢参与智慧闯关
+      </p>
+      <div class="bg-indigo-50 rounded-xl p-6 mb-8 max-w-md mx-auto">
+       <div class="flex justify-between items-center mb-4">
+        <span class="text-gray-600">
+         你的得分
+        </span>
+        <span class="text-2xl font-bold text-primary" id="final-score">
+         0
+        </span>
+       </div>
+       <div class="flex justify-between items-center">
+        <span class="text-gray-600">
+         答题用时
+        </span>
+        <span class="text-xl font-semibold text-dark" id="total-time">
+         0秒
+        </span>
+       </div>
+      </div>
+      <div class="mb-8">
+       <h3 class="text-xl font-semibold mb-4">
+        排行榜
+       </h3>
+       <div class="space-y-3 max-w-md mx-auto" id="leaderboard">
+        <!-- 排行榜将通过JavaScript动态生成 -->
+       </div>
+      </div>
+      <div class="flex flex-wrap justify-center gap-4">
+       <button class="btn-primary" id="play-again">
+        <i class="fa fa-refresh mr-2">
+        </i>
+        再玩一次
+       </button>
+       <button class="btn-secondary" id="share-result">
+        <i class="fa fa-share-alt mr-2">
+        </i>
+        分享成绩
+       </button>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+  <!-- 成功提示模态框 -->
+  <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden" id="success-modal">
+   <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4 transform transition-all scale-95 opacity-0" id="modal-content">
+    <div class="text-center">
+     <div class="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
+      <i class="fa fa-check text-accent text-2xl">
+      </i>
+     </div>
+     <h3 class="text-xl font-bold text-dark mb-2">
+      回答正确！
+     </h3>
+     <p class="text-gray-600 mb-6">
+      +10 分
+     </p>
+     <button class="btn-primary py-2 px-4" id="close-success-modal">
+      继续
+     </button>
+    </div>
+   </div>
+  </div>
+  <!-- 失败提示模态框 -->
+  <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden" id="fail-modal">
+   <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4 transform transition-all scale-95 opacity-0" id="fail-modal-content">
+    <div class="text-center">
+     <div class="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-4">
+      <i class="fa fa-times text-red-500 text-2xl">
+      </i>
+     </div>
+     <h3 class="text-xl font-bold text-dark mb-2">
+      回答错误
+     </h3>
+     <p class="text-gray-600 mb-6" id="correct-answer-text">
+      正确答案是：A. 示例答案
+     </p>
+     <button class="btn-primary py-2 px-4" id="close-fail-modal">
+      查看结果
+     </button>
+    </div>
+   </div>
+  </div>
+  <script>
+   // 游戏数据 - 题库
         const questions = [
   {
     "question": "精益生产的核心思想是？",
@@ -1890,6 +1946,6 @@ gameState.score = 0;
                         leaderboardEl.appendChild(item);
         function loadRecords() {
             loadLeaderboard();
-    </script>
-</body>
+  </script>
+ </body>
 </html>
