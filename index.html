@@ -38,11 +38,6 @@
                         slideUp: {
                             '0%': { transform: 'translateY(20px)', opacity: '0' },
                             '100%': { transform: 'translateY(0)', opacity: '1' },
-                        }
-                    }
-                }
-            }
-        }
     </script>
     
     <!-- 自定义工具类 -->
@@ -50,32 +45,22 @@
         @layer utilities {
             .content-auto {
                 content-visibility: auto;
-            }
             .text-shadow {
                 text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            }
             .card-hover {
                 @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
-            }
             .btn-primary {
                 @apply bg-primary hover:bg-primary/90 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 transform hover:scale-105;
-            }
             .btn-secondary {
                 @apply bg-secondary hover:bg-secondary/90 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-secondary/50 focus:ring-offset-2 transform hover:scale-105;
-            }
             .btn-outline {
                 @apply border-2 border-primary text-primary hover:bg-primary/10 font-semibold py-3 px-6 rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2;
-            }
             .rank-1 {
                 @apply bg-yellow-100 border-yellow-300;
-            }
             .rank-2 {
                 @apply bg-gray-100 border-gray-300;
-            }
             .rank-3 {
                 @apply bg-orange-100 border-orange-300;
-            }
-        }
     </style>
 </head>
 <body class="font-inter bg-gradient-to-br from-light to-indigo-50 min-h-screen">
@@ -1404,7 +1389,6 @@
     ],
     "answer": 0,
     "explanation": ""
-  }
 ];
         
         // 游戏状态
@@ -1421,7 +1405,6 @@
             user: {
                 username: '',
                 department: ''
-            }
         };
         
         // DOM元素
@@ -1473,7 +1456,6 @@
         function showUserInfoForm() {
             startScreen.classList.add('hidden');
             userInfoScreen.classList.remove('hidden');
-        }
         
         function handleUserInfoSubmit(e) {
             e.preventDefault();
@@ -1488,7 +1470,6 @@
             gameState.startTime = new Date();
             loadQuestion();
             startTimer();
-        }
         
         function backToMenu() {
             stopTimer();
@@ -1496,7 +1477,6 @@
             gameScreen.classList.add('hidden');
             resultScreen.classList.add('hidden');
             startScreen.classList.remove('hidden');
-        }
         
         function showResultAfterFailure() {
     // 确保结束时间被正确设置
@@ -1518,18 +1498,15 @@
         resultScreen.classList.remove('hidden');
         loadLeaderboard();
     }, 300);
-}
         
         function playAgain() {
             resetGame();
             resultScreen.classList.add('hidden');
             userInfoScreen.classList.remove('hidden');
-        }
         
         function shareResult() {
             // 模拟分享功能
             alert(`分享成功！你在"智慧闯关"中获得了 ${gameState.score} 分！`);
-        }
         
         // 创建带BOM的UTF-8 CSV内容
     const bom = '\uFEFF'; // UTF-8 BOM头
@@ -1555,13 +1532,11 @@
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-}
         
         function loadQuestion() {
             if (gameState.currentQuestionIndex >= gameState.questions.length) {
                 endGame();
                 return;
-            }
             
             const question = gameState.questions[gameState.currentQuestionIndex];
             questionEl.textContent = question.question;
@@ -1588,7 +1563,6 @@
             
             // 更新进度
             updateProgress();
-        }
         
         function startTimer() {
             gameState.timer = 15;
@@ -1597,7 +1571,6 @@
             // 清除之前的计时器
             if (gameState.timerInterval) {
                 clearInterval(gameState.timerInterval);
-            }
             
             // 设置新的计时器
             gameState.timerInterval = setInterval(() => {
@@ -1611,7 +1584,6 @@
                 } else {
                     timerEl.classList.remove('text-red-500');
                     timerEl.classList.remove('animate-pulse-soft');
-                }
                 
                 if (gameState.timer <= 0) {
                     stopTimer();
@@ -1620,16 +1592,12 @@
                     const correctOption = question.options[question.answer];
                     correctAnswerText.textContent = `正确答案是：${correctOption}`;
                     showFailModal();
-                }
             }, 1000);
-        }
         
         function stopTimer() {
             if (gameState.timerInterval) {
                 clearInterval(gameState.timerInterval);
                 gameState.timerInterval = null;
-            }
-        }
         
         function checkAnswer(selectedIndex) {
             // 防止重复回答
@@ -1670,8 +1638,6 @@
                     correctAnswerText.textContent = `正确答案是：${correctOption}`;
                     showFailModal();
                 }, 500);
-            }
-        }
         
         function showSuccessModal() {
             successModal.classList.remove('hidden');
@@ -1680,7 +1646,6 @@
                 modalContent.classList.remove('scale-95', 'opacity-0');
                 modalContent.classList.add('scale-100', 'opacity-100');
             }, 10);
-        }
         
         function closeSuccessModal() {
             // 移除动画效果
@@ -1691,7 +1656,6 @@
                 successModal.classList.add('hidden');
                 nextQuestion();
             }, 300);
-        }
         
         function showFailModal() {
             failModal.classList.remove('hidden');
@@ -1700,7 +1664,6 @@
                 failModalContent.classList.remove('scale-95', 'opacity-0');
                 failModalContent.classList.add('scale-100', 'opacity-100');
             }, 10);
-        }
         
         function nextQuestion() {
             gameState.currentQuestionIndex++;
@@ -1710,15 +1673,12 @@
             if (gameState.currentQuestionIndex % 3 === 0 && gameState.currentQuestionIndex > 0) {
                 gameState.currentLevel++;
                 levelEl.textContent = gameState.currentLevel;
-            }
             
             if (gameState.currentQuestionIndex < gameState.questions.length) {
                 loadQuestion();
                 startTimer();
             } else {
                 endGame();
-            }
-        }
         
         function endGame() {
     clearInterval(gameState.totalTimerInterval);
@@ -1736,7 +1696,6 @@
     
     gameScreen.classList.add('hidden');
     resultScreen.classList.remove('hidden');
-}
         
         function updateResultScreen() {
     // 确保开始时间和结束时间都存在
@@ -1744,7 +1703,6 @@
         console.error("游戏时间记录不完整");
         totalTimeEl.textContent = "时间记录错误";
         return;
-    }
     
     // 计算总用时（毫秒转为秒）
     const totalTimeMs = gameState.endTime - gameState.startTime;
@@ -1773,14 +1731,11 @@
         resultIconEl.innerHTML = '<i class="fa fa-lightbulb-o text-primary text-4xl"></i>';
         resultIconEl.classList.remove('bg-primary/10', 'bg-yellow-100');
         resultIconEl.classList.add('bg-indigo-100');
-    }
-}
         
         function updateProgress() {
             const progress = (gameState.currentQuestionIndex / gameState.questions.length) * 100;
             progressBarEl.style.width = `${progress}%`;
             progressTextEl.textContent = `${gameState.currentQuestionIndex}/${gameState.questions.length}`;
-        }
         
         function resetGame() {
             clearInterval(gameState.totalTimerInterval);
@@ -1795,7 +1750,6 @@ gameState.score = 0;
             scoreEl.textContent = gameState.score;
             levelEl.textContent = gameState.currentLevel;
             timerEl.textContent = gameState.timer;
-        }
         
         // 数据记录功能
         function saveRecord() {
@@ -1829,11 +1783,9 @@ gameState.score = 0;
                 // 只在当前分数更高时更新记录
                 if (currentRecord.score > existingRecord.score) {
                     records[userIndex] = currentRecord;
-                }
             } else {
                 // 如果没有记录，添加新记录
                 records.push(currentRecord);
-            }
             
             
     // 同步提交到 Google Sheets
@@ -1855,7 +1807,6 @@ gameState.score = 0;
 
     // 保存记录到localStorage
             localStorage.setItem('quizRecords', JSON.stringify(records));
-        }
         
         function loadLeaderboard() {
             // 从localStorage获取记录
@@ -1937,13 +1888,8 @@ gameState.score = 0;
                         `;
                         
                         leaderboardEl.appendChild(item);
-                    }
-                }
-            }
-        }
         function loadRecords() {
             loadLeaderboard();
-        }
     </script>
 </body>
 </html>
