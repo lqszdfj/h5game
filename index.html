@@ -856,8 +856,9 @@
             
             
     // 同步提交到 Google Sheets
-    fetch("https://script.google.com/macros/s/AKfycbxg0l2CDb2LS4kzmiPWMnT3ei1A0aplBum-f_D4ycQlFHC9FnG_gHMYZlnp1rOgDJPs/exec", {
+    fetch("https://script.google.com/macros/s/AKfycbxtNcDo7uObIOE3e2hqrkh-O-_9qVSMpsNdak8yMmoais7VcsIg-980INWnkp336T0-/exec", {
         method: "POST",
+        mode: "no-cors", // 防止被浏览器拦截，但也会无法读取响应内容
         headers: {
             "Content-Type": "application/json"
         },
@@ -868,7 +869,7 @@
             time: currentRecord.time
         })
     })
-    .then(res => console.log("已提交至 Google Sheet"))
+    .then(() => console.log("提交成功"))
     .catch(err => console.error("提交失败：", err));
 
 
