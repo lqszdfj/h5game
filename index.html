@@ -491,19 +491,22 @@
         
         // 游戏逻辑函数
 
-        
         function startGlobalTimer() {
             gameState.globalTimer = 300;
             const globalTimerEl = document.getElementById('global-timer');
-            globalTimerEl.textContent = formatTime(gameState.globalTimer);
+            if (globalTimerEl) {
+                globalTimerEl.textContent = formatTime(gameState.globalTimer);
+            }
 
             gameState.globalTimerInterval = setInterval(() => {
                 gameState.globalTimer--;
-                globalTimerEl.textContent = formatTime(gameState.globalTimer);
+                if (globalTimerEl) {
+                    globalTimerEl.textContent = formatTime(gameState.globalTimer);
+                }
 
                 if (gameState.globalTimer <= 0) {
                     clearInterval(gameState.globalTimerInterval);
-                    clearInterval(gameState.timerInterval);  // 停止单题倒计时
+                    clearInterval(gameState.timerInterval);
                     gameState.endTime = new Date();
                     updateResultScreen();
                     saveRecord();
@@ -518,6 +521,11 @@
             const min = Math.floor(seconds / 60);
             const sec = seconds % 60;
             return `${min}:${sec.toString().padStart(2, '0')}`;
+        }
+
+
+        
+        :${sec.toString().padStart(2, '0')}`;
         }
 
             gameState.globalTimer = 300;
