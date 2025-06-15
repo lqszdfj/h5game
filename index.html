@@ -857,16 +857,84 @@
         
         // 数据记录功能
         function saveRecord() {
-            // 此处省略原有的 saveRecord 函数内容
+            // 如果没有用户信息，不保存记录
+            if (!gameState.user.username || !gameState.user.department) return;
+            
+            // 计算总用时
+            const totalTime = Math.floor((gameState.endTime - gameState.startTime) / 1000);
+            
+            // 创建当前记录
+            const currentRecord = {
+                username: gameState.user.username,
+                department: gameState.user.department,
+                score: gameState.score,
+                time: totalTime
+            };
+            
+            // 从localStorage获取现有记录
+            const records = JSON.parse(localStorage.getItem('quizRecords')) || [];
+            
+            // 检查是否已有该用户的记录
+            const userIndex = records.findIndex(record => 
+                record.username === currentRecord.username && 
+                record.department === currentRecord.department
+            );
+            
+            // 如果已有记录，比较分数
+            if (userIndex !== -1) {
+                const existingRecord = records[userIndex];
+                
+                // 只在当前分数更高时更新记录
+                if (currentRecord.score > existingRecord.score) {
+                    records[userIndex] = currentRecord;
+                }
+            } else {
+                // 如果没有记录，添加新记录
+                records.push(currentRecord);
+            }
         }
-        
+
         function loadRecords() {
-            // 此处省略原有的 loadRecords 函数内容
+            loadLeaderboard();
         }
         
-        function loadLeaderboard() {
-            // 此处省略原有的 loadLeaderboard 函数内容
+        async function loadLeaderboard() {
+    try {
+        const response = await fetch('https://script.google.com/macros/s/AKfycbwBojzhzfFHdMhRlM2f91-SH5GKqmo8H42GmuPY54kNBzSLvKmpMFL2JltFHeF0Wl71/exec');
+        if (!response.ok) {
+            throw new Error('网络响应失败');
         }
+        const records = await response.json();
+
+        // 清空排行榜
+        leaderboardEl.innerHTML = '';
+
+        // 按分数降序排序
+        records.sort((a, b) => b.score - a.score);
+
+        // 添加排行榜记录
+        records.forEach((record, index) => {
+            const rankClass = index === 0 ? 'rank-1' : index === 1 ? 'rank-2' : index === 2 ? 'rank-3' : '';
+            const rankItem = document.createElement('div');
+            rankItem.className = `bg-white rounded-lg shadow-sm p-4 flex justify-between items-center ${rankClass}`;
+            rankItem.innerHTML = `
+                <div class="flex items-center">
+                    <span class="text-gray-600 mr-4">#${index + 1}</span>
+                    <span class="font-semibold">${record.username}</span>
+                    <span class="text-gray-600 ml-2">(${record.department})</span>
+                </div>
+                <div class="flex items-center">
+                    <span class="text-xl font-bold text-primary mr-4">${record.score}</span>
+                    <span class="text-gray-600">${record.time}秒</span>
+                </div>
+            `;
+            leaderboardEl.appendChild(rankItem);
+        });
+    } catch (error) {
+        console.error('获取排行榜数据时出错:', error);
+        leaderboardEl.innerHTML = '<p class="text-red-500">无法获取排行榜数据，请稍后再试。</p>';
+    }
+}
     </script>
 </body>
 </html>
