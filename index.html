@@ -194,11 +194,6 @@
                         <i class="fa fa-clock-o text-red-500 mr-2"></i>
                         <span id="timer" class="font-semibold">15</span>
                     </div>
-                    <!-- 新增整体计时器显示 -->
-                    <div class="bg-white rounded-lg shadow-sm px-4 py-2 flex items-center">
-                        <i class="fa fa-hourglass-half text-orange-500 mr-2"></i>
-                        <span id="overall-timer" class="font-semibold">5:00</span>
-                    </div>
                 </div>
             </div>
             
@@ -309,121 +304,9 @@
         </div>
     </div>
 
-    <script>
-        // 游戏数据 - 题库
-        const questions = [
-            {
-                question: "HTML代表什么？",
-                options: [
-                    "A. Hypertext Markup Language",
-                    "B. High Tech Modern Language",
-                    "C. Hyperlink and Text Markup Language",
-                    "D. Home Tool Markup Language"
-                ],
-                answer: 0,
-                explanation: "HTML是Hypertext Markup Language的缩写，是用于创建网页的标准标记语言。"
-            },
-            {
-                question: "CSS的主要作用是什么？",
-                options: [
-                    "A. 创建动态网页内容",
-                    "B. 描述网页的外观和格式",
-                    "C. 处理网页上的用户交互",
-                    "D. 存储网页数据"
-                ],
-                answer: 1,
-                explanation: "CSS (Cascading Style Sheets) 用于描述HTML元素的显示方式，即网页的外观和格式。"
-            },
-            {
-                question: "JavaScript是一种什么类型的语言？",
-                options: [
-                    "A. 编译型语言",
-                    "B. 解释型语言",
-                    "C. 既是编译型又是解释型",
-                    "D. 以上都不是"
-                ],
-                answer: 1,
-                explanation: "JavaScript是一种解释型语言，代码在运行时由浏览器解释执行。"
-            },
-            {
-                question: "哪个HTML标签用于创建超链接？",
-                options: [
-                    "A. <link>",
-                    "B. <a>",
-                    "C. <href>",
-                    "D. <url>"
-                ],
-                answer: 1,
-                explanation: "HTML中的<a>标签用于创建超链接，通过href属性指定链接地址。"
-            },
-            {
-                question: "在CSS中，哪个选择器用于选择具有特定id的元素？",
-                options: [
-                    "A. .class",
-                    "B. #id",
-                    "C. element",
-                    "D. *"
-                ],
-                answer: 1,
-                explanation: "在CSS中，#符号用于选择具有特定id的元素，例如#header选择id为header的元素。"
-            },
-            {
-                question: "以下哪个是JavaScript的数组方法？",
-                options: [
-                    "A. add()",
-                    "B. insert()",
-                    "C. push()",
-                    "D. append()"
-                ],
-                answer: 2,
-                explanation: "JavaScript数组的push()方法用于在数组末尾添加一个或多个元素，并返回新的长度。"
-            },
-            {
-                question: "在HTML中，哪个标签用于定义表格的表头？",
-                options: [
-                    "A. <thead>",
-                    "B. <header>",
-                    "C. <th>",
-                    "D. <head>"
-                ],
-                answer: 0,
-                explanation: "<thead>标签用于定义HTML表格的表头部分，<th>标签用于定义表头单元格。"
-            },
-            {
-                question: "CSS中，哪个属性用于改变元素的背景颜色？",
-                options: [
-                    "A. color",
-                    "B. text-color",
-                    "C. background-color",
-                    "D. bg-color"
-                ],
-                answer: 2,
-                explanation: "在CSS中，background-color属性用于设置元素的背景颜色。"
-            },
-            {
-                question: "JavaScript中，哪个方法用于将字符串转换为小写？",
-                options: [
-                    "A. toLower()",
-                    "B. lowercase()",
-                    "C. toLowerCase()",
-                    "D. lowerCase()"
-                ],
-                answer: 2,
-                explanation: "JavaScript字符串的toLowerCase()方法用于将字符串中的所有字符转换为小写。"
-            },
-            {
-                question: "HTML5中引入的哪个元素用于显示进度条？",
-                options: [
-                    "A. <progress>",
-                    "B. <bar>",
-                    "C. <status>",
-                    "D. <loading>"
-                ],
-                answer: 0,
-                explanation: "HTML5中引入的<progress>元素用于显示任务的完成进度。"
-            }
-        ];
-        
+    <script src="questions_reformatted.js"></script>
+
+    <script>     
         // 游戏状态
         const gameState = {
             score: 0,
@@ -438,10 +321,7 @@
             user: {
                 username: '',
                 department: ''
-            },
-            // 新增整体计时器相关属性
-            overallTimer: 300, // 5分钟 = 300秒
-            overallTimerInterval: null
+            }
         };
         
         // DOM元素
@@ -476,8 +356,6 @@
         const closeFailModalBtn = document.getElementById('close-fail-modal');
         const correctAnswerText = document.getElementById('correct-answer-text');
         const leaderboardEl = document.getElementById('leaderboard');
-        // 新增整体计时器显示元素
-        const overallTimerEl = document.getElementById('overall-timer');
         
         // 事件监听器
         startGameBtn.addEventListener('click', showUserInfoForm);
@@ -511,13 +389,10 @@
             gameState.startTime = new Date();
             loadQuestion();
             startTimer();
-            // 启动整体计时器
-            startOverallTimer();
         }
         
         function backToMenu() {
             stopTimer();
-            stopOverallTimer();
             resetGame();
             gameScreen.classList.add('hidden');
             resultScreen.classList.add('hidden');
@@ -525,26 +400,26 @@
         }
         
         function showResultAfterFailure() {
-            // 确保结束时间被正确设置
-            gameState.endTime = new Date();
-            
-            // 记录此次成绩
-            saveRecord();
-            
-            // 更新结果页面
-            updateResultScreen();
-            
-            // 移除动画效果
-            failModalContent.classList.remove('scale-100', 'opacity-100');
-            failModalContent.classList.add('scale-95', 'opacity-0');
-            
-            setTimeout(() => {
-                failModal.classList.add('hidden');
-                gameScreen.classList.add('hidden');
-                resultScreen.classList.remove('hidden');
-                loadLeaderboard();
-            }, 300);
-        }
+    // 确保结束时间被正确设置
+    gameState.endTime = new Date();
+    
+    // 记录此次成绩
+    saveRecord();
+    
+    // 更新结果页面
+    updateResultScreen();
+    
+    // 移除动画效果
+    failModalContent.classList.remove('scale-100', 'opacity-100');
+    failModalContent.classList.add('scale-95', 'opacity-0');
+    
+    setTimeout(() => {
+        failModal.classList.add('hidden');
+        gameScreen.classList.add('hidden');
+        resultScreen.classList.remove('hidden');
+        loadLeaderboard();
+    }, 300);
+}
         
         function playAgain() {
             resetGame();
@@ -558,38 +433,38 @@
         }
         
         function exportRecords() {
-            const records = JSON.parse(localStorage.getItem('quizRecords')) || [];
-            
-            if (records.length === 0) {
-                alert('暂无记录可导出');
-                return;
-            }
-            
-            // 创建带BOM的UTF-8 CSV内容
-            const bom = '\uFEFF'; // UTF-8 BOM头
-            let csvContent = `${bom}排名,用户名,部门,最高分,用时(秒)\n`;
-            
-            records.sort((a, b) => b.score - a.score);
-            
-            records.forEach((record, index) => {
-                // 对中文内容进行转义处理（可选，避免逗号分隔问题）
-                const username = `"${record.username}"`;
-                const department = `"${record.department}"`;
-                csvContent += `${index + 1},${username},${department},${record.score},${record.time}\n`;
-            });
-            
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement('a');
-            const url = URL.createObjectURL(blob);
-            
-            link.setAttribute('href', url);
-            link.setAttribute('download', `智慧闯关_成绩记录_${new Date().toISOString().slice(0, 10)}.csv`);
-            link.style.visibility = 'hidden';
-            
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
+    const records = JSON.parse(localStorage.getItem('quizRecords')) || [];
+    
+    if (records.length === 0) {
+        alert('暂无记录可导出');
+        return;
+    }
+    
+    // 创建带BOM的UTF-8 CSV内容
+    const bom = '\uFEFF'; // UTF-8 BOM头
+    let csvContent = `${bom}排名,用户名,部门,最高分,用时(秒)\n`;
+    
+    records.sort((a, b) => b.score - a.score);
+    
+    records.forEach((record, index) => {
+        // 对中文内容进行转义处理（可选，避免逗号分隔问题）
+        const username = `"${record.username}"`;
+        const department = `"${record.department}"`;
+        csvContent += `${index + 1},${username},${department},${record.score},${record.time}\n`;
+    });
+    
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    
+    link.setAttribute('href', url);
+    link.setAttribute('download', `智慧闯关_成绩记录_${new Date().toISOString().slice(0, 10)}.csv`);
+    link.style.visibility = 'hidden';
+    
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
         
         function loadQuestion() {
             if (gameState.currentQuestionIndex >= gameState.questions.length) {
@@ -755,60 +630,59 @@
         }
         
         function endGame() {
-            // 确保结束时间被正确设置
-            gameState.endTime = gameState.endTime || new Date();
-            stopOverallTimer();
-            
-            // 更新结果页面
-            updateResultScreen();
-            
-            // 保存记录
-            saveRecord();
-            
-            // 显示排行榜
-            loadLeaderboard();
-            
-            gameScreen.classList.add('hidden');
-            resultScreen.classList.remove('hidden');
-        }
+    // 确保结束时间被正确设置
+    gameState.endTime = gameState.endTime || new Date();
+    
+    // 更新结果页面
+    updateResultScreen();
+    
+    // 保存记录
+    saveRecord();
+    
+    // 显示排行榜
+    loadLeaderboard();
+    
+    gameScreen.classList.add('hidden');
+    resultScreen.classList.remove('hidden');
+}
         
         function updateResultScreen() {
-            // 确保开始时间和结束时间都存在
-            if (!gameState.startTime || !gameState.endTime) {
-                console.error("游戏时间记录不完整");
-                totalTimeEl.textContent = "时间记录错误";
-                return;
-            }
-            
-            // 计算总用时（毫秒转为秒）
-            const totalTimeMs = gameState.endTime - gameState.startTime;
-            const totalTime = Math.max(0, Math.floor(totalTimeMs / 1000));
-            
-            // 显示结果
-            finalScoreEl.textContent = gameState.score;
-            totalTimeEl.textContent = `${totalTime}秒`;
-            
-            // 根据得分显示不同的结果信息
-            if (gameState.score >= 80) {
-                resultTitleEl.textContent = "太棒了！";
-                resultMessageEl.textContent = "你展现了卓越的知识水平";
-                resultIconEl.innerHTML = '<i class="fa fa-trophy text-yellow-500 text-4xl"></i>';
-                resultIconEl.classList.remove('bg-primary/10');
-                resultIconEl.classList.add('bg-yellow-100');
-            } else if (gameState.score >= 50) {
-                resultTitleEl.textContent = "做得不错！";
-                resultMessageEl.textContent = "你有扎实的基础知识";
-                resultIconEl.innerHTML = '<i class="fa fa-check text-accent text-4xl"></i>';
-                resultIconEl.classList.remove('bg-yellow-100');
-                resultIconEl.classList.add('bg-primary/10');
-            } else {
-                resultTitleEl.textContent = "继续努力！";
-                resultMessageEl.textContent = "每一次尝试都是成长的机会";
-                resultIconEl.innerHTML = '<i class="fa fa-lightbulb-o text-primary text-4xl"></i>';
-                resultIconEl.classList.remove('bg-primary/10', 'bg-yellow-100');
-                resultIconEl.classList.add('bg-indigo-100');
-            }
-        }
+    // 确保开始时间和结束时间都存在
+    if (!gameState.startTime || !gameState.endTime) {
+        console.error("游戏时间记录不完整");
+        totalTimeEl.textContent = "时间记录错误";
+        return;
+    }
+    
+    // 计算总用时（毫秒转为秒）
+    const totalTimeMs = gameState.endTime - gameState.startTime;
+    const totalTime = Math.max(0, Math.floor(totalTimeMs / 1000));
+    
+    // 显示结果
+    finalScoreEl.textContent = gameState.score;
+    totalTimeEl.textContent = `${totalTime}秒`;
+    
+    // 根据得分显示不同的结果信息
+    if (gameState.score >= 80) {
+        resultTitleEl.textContent = "太棒了！";
+        resultMessageEl.textContent = "你展现了卓越的知识水平";
+        resultIconEl.innerHTML = '<i class="fa fa-trophy text-yellow-500 text-4xl"></i>';
+        resultIconEl.classList.remove('bg-primary/10');
+        resultIconEl.classList.add('bg-yellow-100');
+    } else if (gameState.score >= 50) {
+        resultTitleEl.textContent = "做得不错！";
+        resultMessageEl.textContent = "你有扎实的基础知识";
+        resultIconEl.innerHTML = '<i class="fa fa-check text-accent text-4xl"></i>';
+        resultIconEl.classList.remove('bg-yellow-100');
+        resultIconEl.classList.add('bg-primary/10');
+    } else {
+        resultTitleEl.textContent = "继续努力！";
+        resultMessageEl.textContent = "每一次尝试都是成长的机会";
+        resultIconEl.innerHTML = '<i class="fa fa-lightbulb-o text-primary text-4xl"></i>';
+        resultIconEl.classList.remove('bg-primary/10', 'bg-yellow-100');
+        resultIconEl.classList.add('bg-indigo-100');
+    }
+}
         
         function updateProgress() {
             const progress = (gameState.currentQuestionIndex / gameState.questions.length) * 100;
@@ -824,35 +698,10 @@
             gameState.questions = [...questions].sort(() => Math.random() - 0.5);
             gameState.startTime = null;
             gameState.endTime = null;
-            gameState.overallTimer = 300; // 重置整体计时器
             
             scoreEl.textContent = gameState.score;
             levelEl.textContent = gameState.currentLevel;
             timerEl.textContent = gameState.timer;
-            overallTimerEl.textContent = '5:00'; // 重置整体计时器显示
-        }
-        
-        // 启动整体计时器
-        function startOverallTimer() {
-            gameState.overallTimerInterval = setInterval(() => {
-                gameState.overallTimer--;
-                const minutes = Math.floor(gameState.overallTimer / 60);
-                const seconds = gameState.overallTimer % 60;
-                overallTimerEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                
-                if (gameState.overallTimer <= 0) {
-                    stopOverallTimer();
-                    endGame();
-                }
-            }, 1000);
-        }
-        
-        // 停止整体计时器
-        function stopOverallTimer() {
-            if (gameState.overallTimerInterval) {
-                clearInterval(gameState.overallTimerInterval);
-                gameState.overallTimerInterval = null;
-            }
         }
         
         // 数据记录功能
@@ -892,49 +741,138 @@
                 // 如果没有记录，添加新记录
                 records.push(currentRecord);
             }
+            
+            
+    // 同步提交到 Google Sheets
+    fetch("https://script.google.com/macros/s/AKfycbxofiD24EcelxxeUa4JKoHOpcVYWhgafe-AGuDYpGsXtIdzOeZtiLF-y8XEKiiLjcvn/exec", {
+        method: "POST",
+        mode: "no-cors", // 防止被浏览器拦截，但也会无法读取响应内容
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            username: currentRecord.username,
+            department: currentRecord.department,
+            score: currentRecord.score,
+            time: currentRecord.time
+        })
+    })
+    .then(() => console.log("提交成功"))
+    .catch(err => console.error("提交失败：", err));
+
+
+    // 保存记录到localStorage
+            localStorage.setItem('quizRecords', JSON.stringify(records));
         }
+        
+        function loadLeaderboard() {
+    const SHEET_URL = "https://script.google.com/macros/s/AKfycbxofiD24EcelxxeUa4JKoHOpcVYWhgafe-AGuDYpGsXtIdzOeZtiLF-y8XEKiiLjcvn/exec";
+
+    leaderboardEl.innerHTML = `
+      <div class="grid md:grid-cols-2 gap-6">
+        <div id="personal-rank"></div>
+        <div id="department-rank"></div>
+      </div>
+    `;
+
+    fetch(SHEET_URL)
+        .then(res => res.json())
+        .then(data => {
+            // 处理记录
+            const records = data
+                .filter(row => row[1] && row[3])  // 用户名存在且得分有效
+                .map(row => ({
+                    username: row[1],
+                    department: row[2],
+                    score: Number(row[3]),
+                    time: Number(row[4] || 0)
+                }));
+
+            // ------------------ 个人排行榜 ------------------
+            const sortedRecords = [...records].sort((a, b) => b.score - a.score || a.time - b.time);
+            const personalContainer = document.getElementById("personal-rank");
+            personalContainer.innerHTML = `<h4 class="text-lg font-semibold mb-3">个人排行榜</h4>`;
+
+            if (sortedRecords.length === 0) {
+                personalContainer.innerHTML += '<div class="text-gray-500">暂无记录</div>';
+            } else {
+                sortedRecords.slice(0, 5).forEach((record, index) => {
+                    const rankClass = index === 0 ? 'rank-1' : index === 1 ? 'rank-2' : index === 2 ? 'rank-3' : '';
+                    const rankIcon = index === 0 ? '<i class="fa fa-trophy text-yellow-500"></i>' :
+                                     index === 1 ? '<i class="fa fa-trophy text-gray-400"></i>' :
+                                     index === 2 ? '<i class="fa fa-trophy text-orange-400"></i>' : `${index + 1}`;
+                    const isCurrentUser = record.username === gameState.user.username &&
+                                          record.department === gameState.user.department;
+
+                    personalContainer.innerHTML += `
+                        <div class="flex items-center p-4 mb-2 rounded-xl border ${rankClass} ${isCurrentUser ? 'bg-indigo-50 border-primary/30' : ''} card-hover">
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 font-bold text-gray-700 mr-4">
+                                ${rankIcon}
+                            </div>
+                            <div class="flex-grow">
+                                <div class="flex justify-between">
+                                    <span class="font-medium">${record.username} (${record.department})</span>
+                                    <span class="font-bold text-primary">${record.score}分</span>
+                                </div>
+                                <div class="flex justify-between text-sm text-gray-500">
+                                    <span></span>
+                                    <span>用时: ${record.time}秒</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            // ------------------ 部门排行榜 ------------------
+            const departmentScores = {};
+            const departmentCounts = {};
+
+            records.forEach(r => {
+                if (!departmentScores[r.department]) {
+                    departmentScores[r.department] = 0;
+                    departmentCounts[r.department] = 0;
+                }
+                departmentScores[r.department] += r.score;
+                departmentCounts[r.department] += 1;
+            });
+
+            const departmentAverages = Object.keys(departmentScores).map(dept => ({
+                department: dept,
+                avgScore: departmentScores[dept] / departmentCounts[dept],
+                count: departmentCounts[dept]
+            }));
+
+            departmentAverages.sort((a, b) => b.avgScore - a.avgScore);
+
+            const departmentContainer = document.getElementById("department-rank");
+            departmentContainer.innerHTML = `<h4 class="text-lg font-semibold mb-3">部门平均分排行榜</h4>`;
+
+            departmentAverages.forEach((d, i) => {
+                departmentContainer.innerHTML += `
+                    <div class="flex items-center p-4 mb-2 rounded-xl border card-hover ${d.department === gameState.user.department ? 'bg-indigo-50 border-primary/30' : ''}">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 font-bold text-gray-700 mr-4">${i + 1}</div>
+                        <div class="flex-grow">
+                            <div class="flex justify-between">
+                                <span class="font-medium">${d.department}</span>
+                                <span class="font-bold text-accent">${d.avgScore.toFixed(1)} 分</span>
+                            </div>
+                            <div class="text-sm text-gray-500">共 ${d.count} 人参与</div>
+                        </div>
+                    </div>
+                `;
+            });
+        })
+        .catch(error => {
+            console.error("排行榜加载失败:", error);
+            leaderboardEl.innerHTML = '<div class="text-center py-4 text-red-400">排行榜加载失败</div>';
+        });
+}
+
 
         function loadRecords() {
             loadLeaderboard();
         }
-        
-        async function loadLeaderboard() {
-    try {
-        const response = await fetch('https://script.google.com/macros/s/AKfycbwBojzhzfFHdMhRlM2f91-SH5GKqmo8H42GmuPY54kNBzSLvKmpMFL2JltFHeF0Wl71/exec');
-        if (!response.ok) {
-            throw new Error('网络响应失败');
-        }
-        const records = await response.json();
-
-        // 清空排行榜
-        leaderboardEl.innerHTML = '';
-
-        // 按分数降序排序
-        records.sort((a, b) => b.score - a.score);
-
-        // 添加排行榜记录
-        records.forEach((record, index) => {
-            const rankClass = index === 0 ? 'rank-1' : index === 1 ? 'rank-2' : index === 2 ? 'rank-3' : '';
-            const rankItem = document.createElement('div');
-            rankItem.className = `bg-white rounded-lg shadow-sm p-4 flex justify-between items-center ${rankClass}`;
-            rankItem.innerHTML = `
-                <div class="flex items-center">
-                    <span class="text-gray-600 mr-4">#${index + 1}</span>
-                    <span class="font-semibold">${record.username}</span>
-                    <span class="text-gray-600 ml-2">(${record.department})</span>
-                </div>
-                <div class="flex items-center">
-                    <span class="text-xl font-bold text-primary mr-4">${record.score}</span>
-                    <span class="text-gray-600">${record.time}秒</span>
-                </div>
-            `;
-            leaderboardEl.appendChild(rankItem);
-        });
-    } catch (error) {
-        console.error('获取排行榜数据时出错:', error);
-        leaderboardEl.innerHTML = '<p class="text-red-500">无法获取排行榜数据，请稍后再试。</p>';
-    }
-}
     </script>
 </body>
 </html>
