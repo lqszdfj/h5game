@@ -744,7 +744,7 @@
             
             
     // 同步提交到阿里云服务器
-    fetch("http://118.178.128.141:5000/submit", {
+    fetch("https://118.178.128.141:5000/submit", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -766,7 +766,7 @@
         }
         
         function loadLeaderboard() {
-    const SHEET_URL = "http://118.178.128.141:5000/records";
+    const SHEET_URL = "https://118.178.128.141:5000/records";
 
     leaderboardEl.innerHTML = `
       <div class="grid md:grid-cols-2 gap-6">
