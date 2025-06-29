@@ -1100,5 +1100,3 @@ const questions = [
     "explanation": "人机工程工位设计中，操作台面高度调整的依据是操作者身高与臂展数据"
   }
 ];
-
-export default questions;
