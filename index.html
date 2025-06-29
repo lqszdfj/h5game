@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>智慧闯关 - 知识挑战小游戏</title>
+    <title>精益100题,等你来挑战!</title>
     <!-- 引入Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- 引入Font Awesome -->
@@ -100,17 +100,17 @@
                     
                     <form id="user-info-form" class="space-y-4 max-w-md mx-auto">
                         <div class="form-group">
-                            <label for="username" class="block text-gray-700 font-medium mb-2 text-left">用户名</label>
-                            <input type="text" id="username" name="username" required
+                            <label for="employeeId" class="block text-gray-700 font-medium mb-2 text-left">员工编号</label>
+                            <input type="text" id="employeeId" required
                                 class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300"
-                                placeholder="请输入您的姓名">
+                                placeholder="请输入您的员工编号">
                         </div>
                         
                         <div class="form-group">
-                            <label for="department" class="block text-gray-700 font-medium mb-2 text-left">所属部门</label>
-                            <input type="text" id="department" name="department" required
+                            <label for="employeeName" class="block text-gray-700 font-medium mb-2 text-left">员工姓名</label>
+                            <input type="text" id="employeeName" required
                                 class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300"
-                                placeholder="请输入您的部门">
+                                placeholder="请输入您的姓名">
                         </div>
                         
                         <button type="submit" class="btn-primary w-full mt-4">
@@ -135,30 +135,23 @@
                         </div>
                     </div>
                     
-                    <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold text-dark mb-4 text-shadow">智慧闯关</h1>
-                    <p class="text-gray-600 text-lg md:text-xl mb-8 max-w-2xl mx-auto">挑战你的知识极限，通过答题闯关，测试你的智慧和反应能力！</p>
+                    <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold text-dark mb-4 text-shadow">精益100题</h1>
+                    <p class="text-gray-600 text-lg md:text-xl mb-8 max-w-2xl mx-auto">挑战你的精益知识极限，通过答题闯关，考验你对精益知识的掌握程度！</p>
                     
                     <div class="flex flex-wrap justify-center gap-4 mb-8">
                         <div class="bg-indigo-50 rounded-xl p-4 shadow-sm w-full md:w-1/3">
                             <div class="text-primary text-2xl mb-2">
                                 <i class="fa fa-graduation-cap"></i>
                             </div>
-                            <h3 class="font-semibold text-dark mb-1">知识丰富</h3>
-                            <p class="text-sm text-gray-600">涵盖多领域题目</p>
+                            <h3 class="font-semibold text-dark mb-1">题库丰富</h3>
+                            <p class="text-sm text-gray-600">涵盖100个精益知识点</p>
                         </div>
                         <div class="bg-pink-50 rounded-xl p-4 shadow-sm w-full md:w-1/3">
                             <div class="text-secondary text-2xl mb-2">
                                 <i class="fa fa-trophy"></i>
                             </div>
                             <h3 class="font-semibold text-dark mb-1">刺激挑战</h3>
-                            <p class="text-sm text-gray-600">答错一题即结束</p>
-                        </div>
-                        <div class="bg-green-50 rounded-xl p-4 shadow-sm w-full md:w-1/3">
-                            <div class="text-accent text-2xl mb-2">
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <h3 class="font-semibold text-dark mb-1">成就系统</h3>
-                            <p class="text-sm text-gray-600">解锁徽章与称号</p>
+                            <p class="text-sm text-gray-600">答错一题即结束挑战</p>
                         </div>
                     </div>
                     
@@ -169,7 +162,7 @@
             </div>
             
             <div class="text-center text-gray-500 text-sm">
-                <p>© 2025 智慧闯关 版权所有</p>
+                <p>© 2025 AME 版权所有</p>
             </div>
         </div>
         
@@ -236,7 +229,7 @@
                     </div>
                     
                     <h2 id="result-title" class="text-2xl md:text-3xl font-bold text-dark mb-2">游戏结束</h2>
-                    <p id="result-message" class="text-gray-600 mb-8">感谢参与智慧闯关</p>
+                    <p id="result-message" class="text-gray-600 mb-8">感谢参与精益100题</p>
                     
                     <div class="bg-indigo-50 rounded-xl p-6 mb-8 max-w-md mx-auto">
                         <div class="flex justify-between items-center mb-4">
@@ -249,22 +242,16 @@
                         </div>
                     </div>
                     
-                    <div class="mb-8">
-                        <h3 class="text-xl font-semibold mb-4">排行榜</h3>
-                        <div id="leaderboard" class="space-y-3 max-w-md mx-auto">
-                            <!-- 排行榜将通过JavaScript动态生成 -->
-                        </div>
+                    <div id="leaderboard" class="space-y-3 max-w-md mx-auto">
+                        <div id="personal-rank"></div>
+                        <div id="region-a-rank"></div>
+                        <div id="region-b-rank"></div>
                     </div>
-                    
+                      
+                      
                     <div class="flex flex-wrap justify-center gap-4">
                         <button id="play-again" class="btn-primary">
-                            <i class="fa fa-refresh mr-2"></i>再玩一次
-                        </button>
-                        <button id="share-result" class="btn-secondary">
-                            <i class="fa fa-share-alt mr-2"></i>分享成绩
-                        </button>
-                        <button id="export-records" class="btn-outline">
-                            <i class="fa fa-download mr-2"></i>导出记录
+                            <i class="fa fa-refresh mr-2"></i>再次闯关
                         </button>
                     </div>
                 </div>
@@ -333,8 +320,6 @@
         const startGameBtn = document.getElementById('start-game');
         const backToMenuBtn = document.getElementById('back-to-menu');
         const playAgainBtn = document.getElementById('play-again');
-        const shareResultBtn = document.getElementById('share-result');
-        const exportRecordsBtn = document.getElementById('export-records');
         const questionEl = document.getElementById('question');
         const optionsEl = document.getElementById('options');
         const scoreEl = document.getElementById('score');
@@ -362,8 +347,6 @@
         userInfoForm.addEventListener('submit', handleUserInfoSubmit);
         backToMenuBtn.addEventListener('click', backToMenu);
         playAgainBtn.addEventListener('click', playAgain);
-        shareResultBtn.addEventListener('click', shareResult);
-        exportRecordsBtn.addEventListener('click', exportRecords);
         closeSuccessModalBtn.addEventListener('click', closeSuccessModal);
         closeFailModalBtn.addEventListener('click', showResultAfterFailure);
         
@@ -380,8 +363,17 @@
             e.preventDefault();
             
             // 获取用户信息
-            gameState.user.username = document.getElementById('username').value.trim();
-            gameState.user.department = document.getElementById('department').value.trim();
+            const employeeId = document.getElementById('employeeId').value.trim();
+            const employeeName = document.getElementById('employeeName').value.trim();
+
+            if (!employeeId || !employeeName) {
+               alert('请输入有效的员工编号和姓名');
+                return;
+            }
+
+            gameState.user.employeeId = employeeId;
+            gameState.user.employeeName = employeeName;
+
             
             // 开始游戏
             userInfoScreen.classList.add('hidden');
@@ -400,71 +392,34 @@
         }
         
         function showResultAfterFailure() {
-    // 确保结束时间被正确设置
-    gameState.endTime = new Date();
-    
-    // 记录此次成绩
-    saveRecord();
-    
-    // 更新结果页面
-    updateResultScreen();
-    
-    // 移除动画效果
-    failModalContent.classList.remove('scale-100', 'opacity-100');
-    failModalContent.classList.add('scale-95', 'opacity-0');
-    
-    setTimeout(() => {
-        failModal.classList.add('hidden');
-        gameScreen.classList.add('hidden');
-        resultScreen.classList.remove('hidden');
-        loadLeaderboard();
-    }, 300);
-}
+            // 确保结束时间被正确设置
+            gameState.endTime = new Date();
+            
+            // 记录此次成绩
+            const totalTime = Math.max(0, Math.floor((gameState.endTime - gameState.startTime) / 1000));
+            saveRecord(gameState.score, totalTime);
+
+            
+            // 更新结果页面
+            updateResultScreen();
+            
+            // 移除动画效果
+            failModalContent.classList.remove('scale-100', 'opacity-100');
+            failModalContent.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                failModal.classList.add('hidden');
+                gameScreen.classList.add('hidden');
+                resultScreen.classList.remove('hidden');
+                loadLeaderboard();
+            }, 300);
+        }
         
         function playAgain() {
             resetGame();
             resultScreen.classList.add('hidden');
             userInfoScreen.classList.remove('hidden');
         }
-        
-        function shareResult() {
-            // 模拟分享功能
-            alert(`分享成功！你在"智慧闯关"中获得了 ${gameState.score} 分！`);
-        }
-        
-        function exportRecords() {
-    const records = JSON.parse(localStorage.getItem('quizRecords')) || [];
-    
-    if (records.length === 0) {
-        alert('暂无记录可导出');
-        return;
-    }
-    
-    // 创建带BOM的UTF-8 CSV内容
-    const bom = '\uFEFF'; // UTF-8 BOM头
-    let csvContent = `${bom}排名,用户名,部门,最高分,用时(秒)\n`;
-    
-    records.sort((a, b) => b.score - a.score);
-    
-    records.forEach((record, index) => {
-        // 对中文内容进行转义处理（可选，避免逗号分隔问题）
-        const username = `"${record.username}"`;
-        const department = `"${record.department}"`;
-        csvContent += `${index + 1},${username},${department},${record.score},${record.time}\n`;
-    });
-    
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    const url = URL.createObjectURL(blob);
-    
-    link.setAttribute('href', url);
-    link.setAttribute('download', `智慧闯关_成绩记录_${new Date().toISOString().slice(0, 10)}.csv`);
-    link.style.visibility = 'hidden';
-    
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-}
         
         function loadQuestion() {
             if (gameState.currentQuestionIndex >= gameState.questions.length) {
@@ -637,7 +592,9 @@
     updateResultScreen();
     
     // 保存记录
-    saveRecord();
+    const totalTime = Math.max(0, Math.floor((gameState.endTime - gameState.startTime) / 1000));
+    saveRecord(gameState.score, totalTime);  // ✅
+
     
     // 显示排行榜
     loadLeaderboard();
@@ -646,43 +603,43 @@
     resultScreen.classList.remove('hidden');
 }
         
-        function updateResultScreen() {
-    // 确保开始时间和结束时间都存在
-    if (!gameState.startTime || !gameState.endTime) {
-        console.error("游戏时间记录不完整");
-        totalTimeEl.textContent = "时间记录错误";
-        return;
+    function updateResultScreen() {
+        // 确保开始时间和结束时间都存在
+        if (!gameState.startTime || !gameState.endTime) {
+            console.error("游戏时间记录不完整");
+            totalTimeEl.textContent = "时间记录错误";
+            return;
+        }
+        
+        // 计算总用时（毫秒转为秒）
+        const totalTimeMs = gameState.endTime - gameState.startTime;
+        const totalTime = Math.max(0, Math.floor(totalTimeMs / 1000));
+        
+        // 显示结果
+        finalScoreEl.textContent = gameState.score;
+        totalTimeEl.textContent = `${totalTime}秒`;
+        
+        // 根据得分显示不同的结果信息
+        if (gameState.score >= 80) {
+            resultTitleEl.textContent = "太棒了！";
+            resultMessageEl.textContent = "你展现了卓越的知识水平";
+            resultIconEl.innerHTML = '<i class="fa fa-trophy text-yellow-500 text-4xl"></i>';
+            resultIconEl.classList.remove('bg-primary/10');
+            resultIconEl.classList.add('bg-yellow-100');
+        } else if (gameState.score >= 50) {
+            resultTitleEl.textContent = "做得不错！";
+            resultMessageEl.textContent = "你有扎实的基础知识";
+            resultIconEl.innerHTML = '<i class="fa fa-check text-accent text-4xl"></i>';
+            resultIconEl.classList.remove('bg-yellow-100');
+            resultIconEl.classList.add('bg-primary/10');
+        } else {
+            resultTitleEl.textContent = "继续努力！";
+            resultMessageEl.textContent = "每一次尝试都是成长的机会";
+            resultIconEl.innerHTML = '<i class="fa fa-lightbulb-o text-primary text-4xl"></i>';
+            resultIconEl.classList.remove('bg-primary/10', 'bg-yellow-100');
+            resultIconEl.classList.add('bg-indigo-100');
+        }
     }
-    
-    // 计算总用时（毫秒转为秒）
-    const totalTimeMs = gameState.endTime - gameState.startTime;
-    const totalTime = Math.max(0, Math.floor(totalTimeMs / 1000));
-    
-    // 显示结果
-    finalScoreEl.textContent = gameState.score;
-    totalTimeEl.textContent = `${totalTime}秒`;
-    
-    // 根据得分显示不同的结果信息
-    if (gameState.score >= 80) {
-        resultTitleEl.textContent = "太棒了！";
-        resultMessageEl.textContent = "你展现了卓越的知识水平";
-        resultIconEl.innerHTML = '<i class="fa fa-trophy text-yellow-500 text-4xl"></i>';
-        resultIconEl.classList.remove('bg-primary/10');
-        resultIconEl.classList.add('bg-yellow-100');
-    } else if (gameState.score >= 50) {
-        resultTitleEl.textContent = "做得不错！";
-        resultMessageEl.textContent = "你有扎实的基础知识";
-        resultIconEl.innerHTML = '<i class="fa fa-check text-accent text-4xl"></i>';
-        resultIconEl.classList.remove('bg-yellow-100');
-        resultIconEl.classList.add('bg-primary/10');
-    } else {
-        resultTitleEl.textContent = "继续努力！";
-        resultMessageEl.textContent = "每一次尝试都是成长的机会";
-        resultIconEl.innerHTML = '<i class="fa fa-lightbulb-o text-primary text-4xl"></i>';
-        resultIconEl.classList.remove('bg-primary/10', 'bg-yellow-100');
-        resultIconEl.classList.add('bg-indigo-100');
-    }
-}
         
         function updateProgress() {
             const progress = (gameState.currentQuestionIndex / gameState.questions.length) * 100;
@@ -705,174 +662,151 @@
         }
         
         // 数据记录功能
-        function saveRecord() {
-            // 如果没有用户信息，不保存记录
-            if (!gameState.user.username || !gameState.user.department) return;
-            
-            // 计算总用时
-            const totalTime = Math.floor((gameState.endTime - gameState.startTime) / 1000);
-            
-            // 创建当前记录
-            const currentRecord = {
-                username: gameState.user.username,
-                department: gameState.user.department,
-                score: gameState.score,
-                time: totalTime
-            };
-            
-            // 从localStorage获取现有记录
-            const records = JSON.parse(localStorage.getItem('quizRecords')) || [];
-            
-            // 检查是否已有该用户的记录
-            const userIndex = records.findIndex(record => 
-                record.username === currentRecord.username && 
-                record.department === currentRecord.department
-            );
-            
-            // 如果已有记录，比较分数
-            if (userIndex !== -1) {
-                const existingRecord = records[userIndex];
-                
-                // 只在当前分数更高时更新记录
-                if (currentRecord.score > existingRecord.score) {
-                    records[userIndex] = currentRecord;
-                }
-            } else {
-                // 如果没有记录，添加新记录
-                records.push(currentRecord);
-            }
-            
-            
-    // 同步提交到阿里云服务器
-    fetch("https://118.178.128.141:5000/submit", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            username: currentRecord.username,
-            department: currentRecord.department,
-            score: currentRecord.score,
-            time: currentRecord.time
-        })
-    })
-    .then(() => console.log("提交成功"))
-    .catch(err => console.error("提交失败：", err));
+        function saveRecord(score, time) {
+            const employeeId = document.getElementById("employeeId").value;
+            const inputName = document.getElementById("employeeName").value;
 
-
-
-    // 保存记录到localStorage
-            localStorage.setItem('quizRecords', JSON.stringify(records));
-        }
-        
-        function loadLeaderboard() {
-    const SHEET_URL = "https://118.178.128.141:5000/records";
-
-    leaderboardEl.innerHTML = `
-      <div class="grid md:grid-cols-2 gap-6">
-        <div id="personal-rank"></div>
-        <div id="department-rank"></div>
-      </div>
-    `;
-
-    fetch(SHEET_URL)
-        .then(res => res.json())
-        .then(data => {
-            // 处理记录
-            const records = data
-                .filter(row => row[1] && row[3])  // 用户名存在且得分有效
-                .map(row => ({
-                    username: row[1],
-                    department: row[2],
-                    score: Number(row[3]),
-                    time: Number(row[4] || 0)
-                }));
-
-            // ------------------ 个人排行榜 ------------------
-            const sortedRecords = [...records].sort((a, b) => b.score - a.score || a.time - b.time);
-            const personalContainer = document.getElementById("personal-rank");
-            personalContainer.innerHTML = `<h4 class="text-lg font-semibold mb-3">个人排行榜</h4>`;
-
-            if (sortedRecords.length === 0) {
-                personalContainer.innerHTML += '<div class="text-gray-500">暂无记录</div>';
-            } else {
-                sortedRecords.slice(0, 5).forEach((record, index) => {
-                    const rankClass = index === 0 ? 'rank-1' : index === 1 ? 'rank-2' : index === 2 ? 'rank-3' : '';
-                    const rankIcon = index === 0 ? '<i class="fa fa-trophy text-yellow-500"></i>' :
-                                     index === 1 ? '<i class="fa fa-trophy text-gray-400"></i>' :
-                                     index === 2 ? '<i class="fa fa-trophy text-orange-400"></i>' : `${index + 1}`;
-                    const isCurrentUser = record.username === gameState.user.username &&
-                                          record.department === gameState.user.department;
-
-                    personalContainer.innerHTML += `
-                        <div class="flex items-center p-4 mb-2 rounded-xl border ${rankClass} ${isCurrentUser ? 'bg-indigo-50 border-primary/30' : ''} card-hover">
-                            <div class="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 font-bold text-gray-700 mr-4">
-                                ${rankIcon}
-                            </div>
-                            <div class="flex-grow">
-                                <div class="flex justify-between">
-                                    <span class="font-medium">${record.username} (${record.department})</span>
-                                    <span class="font-bold text-primary">${record.score}分</span>
-                                </div>
-                                <div class="flex justify-between text-sm text-gray-500">
-                                    <span></span>
-                                    <span>用时: ${record.time}秒</span>
-                                </div>
-                            </div>
-                        </div>
-                    `;
+            fetch("https://118.178.128.141:5000/submit", {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    employee_id: employeeId,
+                    input_name: inputName,
+                    score: score,
+                    time: time,
+                }),
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                console.log("提交成功：", data);
+                })
+                .catch((err) => {
+                console.error("提交失败：", err);
                 });
-            }
+            }      
 
-            // ------------------ 部门排行榜 ------------------
-            const departmentScores = {};
-            const departmentCounts = {};
+            
+        function loadLeaderboard() {
+        // 获取所有记录数据
+            fetch("https://118.178.128.141:5000/records")
+                .then(response => response.json())
+                .then(data => {
+                    // 1. 个人排行（按得分降序排列）
+                    let personalRanking = data.sort((a, b) => b.score - a.score);
 
-            records.forEach(r => {
-                if (!departmentScores[r.department]) {
-                    departmentScores[r.department] = 0;
-                    departmentCounts[r.department] = 0;
-                }
-                departmentScores[r.department] += r.score;
-                departmentCounts[r.department] += 1;
-            });
+                    // 2. 赛区 A 排行
+                    let regionA = data.filter(record => record.region === 'A' && record.score > 0);
+                    let teamA = {};
+                    regionA.forEach(record => {
+                    if (!teamA[record.team_name]) {
+                        teamA[record.team_name] = { totalScore: 0, count: 0 };
+                    }
+                    teamA[record.team_name].totalScore += record.score;
+                    teamA[record.team_name].count++;
+                    });
 
-            const departmentAverages = Object.keys(departmentScores).map(dept => ({
-                department: dept,
-                avgScore: departmentScores[dept] / departmentCounts[dept],
-                count: departmentCounts[dept]
-            }));
+                    let regionARanking = Object.entries(teamA).map(([team, { totalScore, count }]) => ({
+                    team: team,
+                    averageScore: totalScore / count
+                    })).sort((a, b) => b.averageScore - a.averageScore);
 
-            departmentAverages.sort((a, b) => b.avgScore - a.avgScore);
+                    // 3. 赛区 B 排行
+                    let regionB = data.filter(record => record.region === 'B' && record.score > 0);
+                    let teamB = {};
+                    regionB.forEach(record => {
+                    if (!teamB[record.team_name]) {
+                        teamB[record.team_name] = { totalScore: 0, count: 0 };
+                    }
+                    teamB[record.team_name].totalScore += record.score;
+                    teamB[record.team_name].count++;
+                    });
 
-            const departmentContainer = document.getElementById("department-rank");
-            departmentContainer.innerHTML = `<h4 class="text-lg font-semibold mb-3">部门平均分排行榜</h4>`;
+                    let regionBRanking = Object.entries(teamB).map(([team, { totalScore, count }]) => ({
+                    team: team,
+                    averageScore: totalScore / count
+                    })).sort((a, b) => b.averageScore - a.averageScore);
 
-            departmentAverages.forEach((d, i) => {
-                departmentContainer.innerHTML += `
-                    <div class="flex items-center p-4 mb-2 rounded-xl border card-hover ${d.department === gameState.user.department ? 'bg-indigo-50 border-primary/30' : ''}">
-                        <div class="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 font-bold text-gray-700 mr-4">${i + 1}</div>
-                        <div class="flex-grow">
-                            <div class="flex justify-between">
-                                <span class="font-medium">${d.department}</span>
-                                <span class="font-bold text-accent">${d.avgScore.toFixed(1)} 分</span>
-                            </div>
-                            <div class="text-sm text-gray-500">共 ${d.count} 人参与</div>
-                        </div>
-                    </div>
-                `;
-            });
-        })
-        .catch(error => {
-            console.error("排行榜加载失败:", error);
-            leaderboardEl.innerHTML = '<div class="text-center py-4 text-red-400">排行榜加载失败</div>';
-        });
-}
-
-
-        function loadRecords() {
-            loadLeaderboard();
+                    // 更新页面显示
+                    displayRankings(personalRanking, regionARanking, regionBRanking);
+                })
+                .catch(error => console.error("排行榜加载失败:", error));
         }
-    </script>
+
+    // 将排行榜数据显示到页面
+    function displayRankings(personalRanking, regionARanking, regionBRanking) {
+        const personalContainer = document.getElementById("personal-rank");
+        const regionAContainer = document.getElementById("region-a-rank");
+        const regionBContainer = document.getElementById("region-b-rank");
+
+        // === 个人排行榜 ===
+        personalContainer.innerHTML = `<h4 class="text-lg font-semibold mb-3">个人排行榜</h4>`;
+        if (personalRanking.length === 0) {
+            personalContainer.innerHTML += '<div class="text-gray-500">暂无记录</div>';
+        } else {
+            personalRanking.slice(0, 10).forEach((record, index) => {
+            const rankIcon = index === 0 ? '<i class="fa fa-trophy text-yellow-500"></i>' :
+                            index === 1 ? '<i class="fa fa-trophy text-gray-400"></i>' :
+                            index === 2 ? '<i class="fa fa-trophy text-orange-400"></i>' : `${index + 1}`;
+            personalContainer.innerHTML += `
+                <div class="flex items-center p-4 mb-2 rounded-xl border card-hover">
+                <div class="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 font-bold text-gray-700 mr-4">
+                    ${rankIcon}
+                </div>
+                <div class="flex-grow">
+                    <div class="flex justify-between">
+                    <span class="font-medium">${record.employee_name}（${record.team_name || '无团队'}）</span>
+                    <span class="font-bold text-primary">${record.score}分</span>
+                    </div>
+                </div>
+                </div>`;
+            });
+        }
+
+        // === 赛区 A 团队排行榜 ===
+        regionAContainer.innerHTML = `<h4 class="text-lg font-semibold mt-6 mb-3">赛区 A 团队排行榜</h4>`;
+        regionARanking.slice(0, 5).forEach((team, index) => {
+            regionAContainer.innerHTML += `
+            <div class="flex items-center p-4 mb-2 rounded-xl border card-hover">
+                <div class="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 font-bold text-gray-700 mr-4">
+                ${index + 1}
+                </div>
+                <div class="flex-grow">
+                <div class="flex justify-between">
+                    <span class="font-medium">${team.team}</span>
+                    <span class="font-bold text-accent">${team.averageScore.toFixed(2)} 分</span>
+                </div>
+                </div>
+            </div>`;
+        });
+
+        // === 赛区 B 团队排行榜 ===
+        regionBContainer.innerHTML = `<h4 class="text-lg font-semibold mt-6 mb-3">赛区 B 团队排行榜</h4>`;
+        regionBRanking.slice(0, 5).forEach((team, index) => {
+            regionBContainer.innerHTML += `
+            <div class="flex items-center p-4 mb-2 rounded-xl border card-hover">
+                <div class="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 font-bold text-gray-700 mr-4">
+                ${index + 1}
+                </div>
+                <div class="flex-grow">
+                <div class="flex justify-between">
+                    <span class="font-medium">${team.team}</span>
+                    <span class="font-bold text-accent">${team.averageScore.toFixed(2)} 分</span>
+                </div>
+                </div>
+            </div>`;
+        });
+        }
+
+
+    // 页面加载时自动调用
+    window.onload = loadLeaderboard;
+
+
+    function loadRecords() {
+            loadLeaderboard();
+    }
+</script>
 </body>
 </html>
