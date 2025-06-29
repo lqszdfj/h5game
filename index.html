@@ -743,10 +743,9 @@
             }
             
             
-    // 同步提交到 Google Sheets
-    fetch("https://script.google.com/macros/s/AKfycbxofiD24EcelxxeUa4JKoHOpcVYWhgafe-AGuDYpGsXtIdzOeZtiLF-y8XEKiiLjcvn/exec", {
+    // 同步提交到阿里云服务器
+    fetch("http://118.178.128.141:5000/submit", {
         method: "POST",
-        mode: "no-cors", // 防止被浏览器拦截，但也会无法读取响应内容
         headers: {
             "Content-Type": "application/json"
         },
@@ -761,12 +760,13 @@
     .catch(err => console.error("提交失败：", err));
 
 
+
     // 保存记录到localStorage
             localStorage.setItem('quizRecords', JSON.stringify(records));
         }
         
         function loadLeaderboard() {
-    const SHEET_URL = "https://script.google.com/macros/s/AKfycbxofiD24EcelxxeUa4JKoHOpcVYWhgafe-AGuDYpGsXtIdzOeZtiLF-y8XEKiiLjcvn/exec";
+    const SHEET_URL = "http://118.178.128.141:5000/records";
 
     leaderboardEl.innerHTML = `
       <div class="grid md:grid-cols-2 gap-6">
