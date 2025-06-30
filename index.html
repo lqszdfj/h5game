@@ -185,7 +185,7 @@
                     </div>
                     <div class="bg-white rounded-lg shadow-sm px-4 py-2 flex items-center">
                         <i class="fa fa-clock-o text-red-500 mr-2"></i>
-                        <span id="timer" class="font-semibold">15</span>
+                        <span id="timer" class="font-semibold">300</span>
                     </div>
                 </div>
             </div>
@@ -299,7 +299,7 @@
             score: 0,
             currentLevel: 1,
             currentQuestionIndex: 0,
-            timer: 15,
+            timer: 300,
             timerInterval: null,
             isAnswered: false,
             questions: [...questions].sort(() => Math.random() - 0.5), // 随机排序题目
@@ -455,37 +455,27 @@
         }
         
         function startTimer() {
-            gameState.timer = 15;
-            timerEl.textContent = gameState.timer;
-            
-            // 清除之前的计时器
-            if (gameState.timerInterval) {
-                clearInterval(gameState.timerInterval);
+            if (!gameState.timerInterval) {
+                gameState.timer = 300; // 初始化为5分钟
+                timerEl.textContent = gameState.timer; // 格式化显示
+
+                // 设置全局倒计时
+                gameState.timerInterval = setInterval(() => {
+                    gameState.timer--;
+                    timerEl.textContent = gameState.timer; // 更新UI显示的倒计时
+
+                    // 如果剩余时间小于1分钟，倒计时显示为红色
+                    if (gameState.timer <= 60) {
+                        timerEl.classList.add('text-red-500');
+                    }
+
+                    // 当倒计时到0时结束游戏
+                    if (gameState.timer <= 0) {
+                        stopTimer();
+                        endGame(); // 游戏结束
+                    }
+                }, 1000);
             }
-            
-            // 设置新的计时器
-            gameState.timerInterval = setInterval(() => {
-                gameState.timer--;
-                timerEl.textContent = gameState.timer;
-                
-                // 更新计时器UI颜色
-                if (gameState.timer <= 5) {
-                    timerEl.classList.add('text-red-500');
-                    timerEl.classList.add('animate-pulse-soft');
-                } else {
-                    timerEl.classList.remove('text-red-500');
-                    timerEl.classList.remove('animate-pulse-soft');
-                }
-                
-                if (gameState.timer <= 0) {
-                    stopTimer();
-                    // 时间到，显示错误
-                    const question = gameState.questions[gameState.currentQuestionIndex];
-                    const correctOption = question.options[question.answer];
-                    correctAnswerText.textContent = `正确答案是：${correctOption}`;
-                    showFailModal();
-                }
-            }, 1000);
         }
         
         function stopTimer() {
@@ -500,7 +490,7 @@
             if (gameState.isAnswered) return;
             gameState.isAnswered = true;
             
-            stopTimer();
+            // stopTimer();
             
             const question = gameState.questions[gameState.currentQuestionIndex];
             const optionElements = document.querySelectorAll('.option');
@@ -578,68 +568,68 @@
             
             if (gameState.currentQuestionIndex < gameState.questions.length) {
                 loadQuestion();
-                startTimer();
+                // startTimer();
             } else {
                 endGame();
             }
         }
         
         function endGame() {
-    // 确保结束时间被正确设置
-    gameState.endTime = gameState.endTime || new Date();
-    
-    // 更新结果页面
-    updateResultScreen();
-    
-    // 保存记录
-    const totalTime = Math.max(0, Math.floor((gameState.endTime - gameState.startTime) / 1000));
-    saveRecord(gameState.score, totalTime);  // ✅
+            // 确保结束时间被正确设置
+            gameState.endTime = new Date();
+            
+            // 更新结果页面
+            updateResultScreen();
+            
+            // 保存记录
+            const totalTime = Math.max(0, Math.floor((gameState.endTime - gameState.startTime) / 1000));
+            saveRecord(gameState.score, totalTime);  // ✅
 
-    
-    // 显示排行榜
-    loadLeaderboard();
-    
-    gameScreen.classList.add('hidden');
-    resultScreen.classList.remove('hidden');
-}
-        
-    function updateResultScreen() {
-        // 确保开始时间和结束时间都存在
-        if (!gameState.startTime || !gameState.endTime) {
-            console.error("游戏时间记录不完整");
-            totalTimeEl.textContent = "时间记录错误";
-            return;
+            
+            // 显示排行榜
+            loadLeaderboard();
+            
+            gameScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
         }
         
-        // 计算总用时（毫秒转为秒）
-        const totalTimeMs = gameState.endTime - gameState.startTime;
-        const totalTime = Math.max(0, Math.floor(totalTimeMs / 1000));
-        
-        // 显示结果
-        finalScoreEl.textContent = gameState.score;
-        totalTimeEl.textContent = `${totalTime}秒`;
-        
-        // 根据得分显示不同的结果信息
-        if (gameState.score >= 80) {
-            resultTitleEl.textContent = "太棒了！";
-            resultMessageEl.textContent = "你展现了卓越的知识水平";
-            resultIconEl.innerHTML = '<i class="fa fa-trophy text-yellow-500 text-4xl"></i>';
-            resultIconEl.classList.remove('bg-primary/10');
-            resultIconEl.classList.add('bg-yellow-100');
-        } else if (gameState.score >= 50) {
-            resultTitleEl.textContent = "做得不错！";
-            resultMessageEl.textContent = "你有扎实的基础知识";
-            resultIconEl.innerHTML = '<i class="fa fa-check text-accent text-4xl"></i>';
-            resultIconEl.classList.remove('bg-yellow-100');
-            resultIconEl.classList.add('bg-primary/10');
-        } else {
-            resultTitleEl.textContent = "继续努力！";
-            resultMessageEl.textContent = "每一次尝试都是成长的机会";
-            resultIconEl.innerHTML = '<i class="fa fa-lightbulb-o text-primary text-4xl"></i>';
-            resultIconEl.classList.remove('bg-primary/10', 'bg-yellow-100');
-            resultIconEl.classList.add('bg-indigo-100');
+        function updateResultScreen() {
+            // 确保开始时间和结束时间都存在
+            if (!gameState.startTime || !gameState.endTime) {
+                console.error("游戏时间记录不完整");
+                totalTimeEl.textContent = "时间记录错误";
+                return;
+            }
+            
+            // 计算总用时（毫秒转为秒）
+            const totalTimeMs = gameState.endTime - gameState.startTime;
+            const totalTime = Math.max(0, Math.floor(totalTimeMs / 1000));
+            
+            // 显示结果
+            finalScoreEl.textContent = gameState.score;
+            totalTimeEl.textContent = `${totalTime}秒`;
+            
+            // 根据得分显示不同的结果信息
+            if (gameState.score >= 80) {
+                resultTitleEl.textContent = "太棒了！";
+                resultMessageEl.textContent = "你展现了卓越的知识水平";
+                resultIconEl.innerHTML = '<i class="fa fa-trophy text-yellow-500 text-4xl"></i>';
+                resultIconEl.classList.remove('bg-primary/10');
+                resultIconEl.classList.add('bg-yellow-100');
+            } else if (gameState.score >= 50) {
+                resultTitleEl.textContent = "做得不错！";
+                resultMessageEl.textContent = "你有扎实的基础知识";
+                resultIconEl.innerHTML = '<i class="fa fa-check text-accent text-4xl"></i>';
+                resultIconEl.classList.remove('bg-yellow-100');
+                resultIconEl.classList.add('bg-primary/10');
+            } else {
+                resultTitleEl.textContent = "继续努力！";
+                resultMessageEl.textContent = "每一次尝试都是成长的机会";
+                resultIconEl.innerHTML = '<i class="fa fa-lightbulb-o text-primary text-4xl"></i>';
+                resultIconEl.classList.remove('bg-primary/10', 'bg-yellow-100');
+                resultIconEl.classList.add('bg-indigo-100');
+            }
         }
-    }
         
         function updateProgress() {
             const progress = (gameState.currentQuestionIndex / gameState.questions.length) * 100;
@@ -688,51 +678,70 @@
             }      
 
             
-        function loadLeaderboard() {
-        // 获取所有记录数据
-            fetch("https://118.178.128.141:5000/records")
-                .then(response => response.json())
-                .then(data => {
-                    // 1. 个人排行（按得分降序排列）
-                    let personalRanking = data.sort((a, b) => b.score - a.score);
+            function loadLeaderboard() {
+                fetch("https://118.178.128.141:5000/records")
+                    .then(response => response.json())
+                    .then(data => {
+                        // 1. 个人排行榜（按得分降序）
+                        let personalRanking = data.sort((a, b) => b.score - a.score);
 
-                    // 2. 赛区 A 排行
-                    let regionA = data.filter(record => record.region === 'A' && record.score > 0);
-                    let teamA = {};
-                    regionA.forEach(record => {
-                    if (!teamA[record.team_name]) {
-                        teamA[record.team_name] = { totalScore: 0, count: 0 };
-                    }
-                    teamA[record.team_name].totalScore += record.score;
-                    teamA[record.team_name].count++;
-                    });
+                        // ==== 计算团队总人数（无论是否答题） ====
+                        let teamPeople = {};  // { teamName: Set(employee_id) }
+                        data.forEach(record => {
+                            if (!teamPeople[record.team_name]) {
+                                teamPeople[record.team_name] = new Set();
+                            }
+                            teamPeople[record.team_name].add(record.employee_id);
+                        });
 
-                    let regionARanking = Object.entries(teamA).map(([team, { totalScore, count }]) => ({
-                    team: team,
-                    averageScore: totalScore / count
-                    })).sort((a, b) => b.averageScore - a.averageScore);
+                        // ==== 赛区 A ====
+                        let regionA = data.filter(record => record.region === 'A' && record.score > 0);
+                        let teamA = {};  // { teamName: { totalScore, participants } }
 
-                    // 3. 赛区 B 排行
-                    let regionB = data.filter(record => record.region === 'B' && record.score > 0);
-                    let teamB = {};
-                    regionB.forEach(record => {
-                    if (!teamB[record.team_name]) {
-                        teamB[record.team_name] = { totalScore: 0, count: 0 };
-                    }
-                    teamB[record.team_name].totalScore += record.score;
-                    teamB[record.team_name].count++;
-                    });
+                        regionA.forEach(record => {
+                            if (!teamA[record.team_name]) {
+                                teamA[record.team_name] = {
+                                    totalScore: 0,
+                                    participants: new Set()
+                                };
+                            }
+                            teamA[record.team_name].totalScore += record.score;
+                            teamA[record.team_name].participants.add(record.employee_id);
+                        });
 
-                    let regionBRanking = Object.entries(teamB).map(([team, { totalScore, count }]) => ({
-                    team: team,
-                    averageScore: totalScore / count
-                    })).sort((a, b) => b.averageScore - a.averageScore);
+                        let regionARanking = Object.entries(teamA).map(([team, { totalScore, participants }]) => ({
+                            team: team,
+                            averageScore: totalScore / teamPeople[team].size,
+                            numOfMembers: participants.size
+                        })).sort((a, b) => b.averageScore - a.averageScore);
 
-                    // 更新页面显示
-                    displayRankings(personalRanking, regionARanking, regionBRanking);
-                })
-                .catch(error => console.error("排行榜加载失败:", error));
-        }
+                        // ==== 赛区 B ====
+                        let regionB = data.filter(record => record.region === 'B' && record.score > 0);
+                        let teamB = {};
+
+                        regionB.forEach(record => {
+                            if (!teamB[record.team_name]) {
+                                teamB[record.team_name] = {
+                                    totalScore: 0,
+                                    participants: new Set()
+                                };
+                            }
+                            teamB[record.team_name].totalScore += record.score;
+                            teamB[record.team_name].participants.add(record.employee_id);
+                        });
+
+                        let regionBRanking = Object.entries(teamB).map(([team, { totalScore, participants }]) => ({
+                            team: team,
+                            averageScore: totalScore / teamPeople[team].size,
+                            numOfMembers: participants.size
+                        })).sort((a, b) => b.averageScore - a.averageScore);
+
+                        // ==== 展示排行榜 ====
+                        displayRankings(personalRanking, regionARanking, regionBRanking);
+                    })
+                    .catch(error => console.error("排行榜加载失败:", error));
+            }
+
 
     // 将排行榜数据显示到页面
     function displayRankings(personalRanking, regionARanking, regionBRanking) {
@@ -748,7 +757,7 @@
             personalRanking.slice(0, 10).forEach((record, index) => {
             const rankIcon = index === 0 ? '<i class="fa fa-trophy text-yellow-500"></i>' :
                             index === 1 ? '<i class="fa fa-trophy text-gray-400"></i>' :
-                            index === 2 ? '<i class="fa fa-trophy text-orange-400"></i>' : `${index + 1}`;
+                            index === 2 ? '<i class="fa fa-trophy text-orange-400"></i>' : `${index + 1}`;    
             personalContainer.innerHTML += `
                 <div class="flex items-center p-4 mb-2 rounded-xl border card-hover">
                 <div class="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 font-bold text-gray-700 mr-4">
@@ -756,8 +765,11 @@
                 </div>
                 <div class="flex-grow">
                     <div class="flex justify-between">
-                    <span class="font-medium">${record.employee_name}（${record.team_name || '无团队'}）</span>
-                    <span class="font-bold text-primary">${record.score}分</span>
+                        <span class="font-medium">${record.employee_name}（${record.team_name || '无团队'}）</span>
+                        <span class="font-bold text-primary">${record.score}分</span>
+                    </div>
+                    <div class="flex justify-between text-sm text-gray-500">
+                        <span>用时: ${record.time_taken}s</span>
                     </div>
                 </div>
                 </div>`;
@@ -777,6 +789,7 @@
                     <span class="font-medium">${team.team}</span>
                     <span class="font-bold text-accent">${team.averageScore.toFixed(2)} 分</span>
                 </div>
+                <div class="text-sm text-gray-500">已参与人数: ${team.numOfMembers}</div>
                 </div>
             </div>`;
         });
@@ -794,6 +807,7 @@
                     <span class="font-medium">${team.team}</span>
                     <span class="font-bold text-accent">${team.averageScore.toFixed(2)} 分</span>
                 </div>
+                <div class="text-sm text-gray-500">已参与人数: ${team.numOfMembers}</div>
                 </div>
             </div>`;
         });
